@@ -1,13 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/ContactsCollection';
+import "../imports/api/ContactsCollection";
+import "../imports/api/ContactsMethods";
 
-//const insertTask = taskText => ContactsCollection.insert({name: "test", email:"test.com", imageUrl:"test.png"});
-
-Meteor.startup( () => {
-    // if (ContactsCollection.find().count() === 0) {
-    //     insertTask()
-    //   }
+Meteor.startup(() => {
 });
-
-
-    
