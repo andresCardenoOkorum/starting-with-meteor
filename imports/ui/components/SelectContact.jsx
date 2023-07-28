@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import {CheckIcon, SelectorIcon } from "@heroicons/react/solid"
+import React, { Fragment } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+import CheckIcon from '@heroicons/react/24/solid/CheckIcon';
+import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
 
 
 
@@ -27,7 +28,7 @@ export const SelectContact = ({ title, contact, setContact, contacts }) => {
                 <span className="ml-3 block truncate">{contact?.name || 'Select a contact'}</span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <SelectorIcon
+                <ChevronUpDownIcon
                   className="h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />

@@ -1,17 +1,23 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
-import {ContactsCollection} from "../collections/ContactsCollection";
+import { ContactsCollection } from "../collections/ContactsCollection";
+
+
 
 Meteor.methods({
   'contacts.insert'({ name, email, imageUrl, walletId }) {
+    const { userId } = this;
+    if (!userId) {
+      throw new Meteor.Error('Access denied');
+    };
     check(name, String);
     check(email, String);
     check(imageUrl, String);
     check(walletId, String);
-    if(!name) {
+    if (!name) {
       throw new Meteor.Error("Name is required.");
     }
-    if(!walletId) {
+    if (!walletId) {
       throw new Meteor.Error("Wallet ID is required.");
     }
     return ContactsCollection.insert({
@@ -19,10 +25,13 @@ Meteor.methods({
       email,
       imageUrl,
       walletId,
-      createdAt: new Date() });
+      createdAt: new Date(),
+      userId,
+    });
   },
   'contacts.archive'({ contactId }) {
     check(contactId, String);
+    console.log(contactId);
     ContactsCollection.update({ _id: contactId }, { $set: { archived: true } });
   }
 });

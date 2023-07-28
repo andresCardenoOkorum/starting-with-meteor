@@ -1,10 +1,11 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo } from "meteor/mongo";
 import SimpleSchema from "simpl-schema";
+
 export const ContactsCollection = new Mongo.Collection('contacts');
 
 const ContactsSchema = new SimpleSchema({
   name: {
-    type: String
+    type: String,
   },
   email: {
     type: String,
@@ -12,16 +13,22 @@ const ContactsSchema = new SimpleSchema({
   },
   imageUrl: {
     type: String,
-    optional: true
+    optional: true,
+  },
+  archived: {
+    type: Boolean,
+    defaultValue: false,
   },
   walletId: {
     type: String,
-    //regEx: SimpleSchema.RegEx.Id,
+    // regEx: SimpleSchema.RegEx.Id,
   },
   createdAt: {
     type: Date,
   },
+  userId: {
+    type: String,
+  },
 });
-
 
 ContactsCollection.attachSchema(ContactsSchema);

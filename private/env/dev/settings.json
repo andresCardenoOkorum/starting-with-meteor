@@ -1,0 +1,10 @@
+{
+    "packages": {
+        "quave:email-postmark": {
+            "from": "andres.cardeno@okorum.com",
+            "apiToken": "5cdefd3f-3ed3-43ac-ad1e-f5808775aa6f"
+        }
+    },
+    "googleClientId": "497400462009-4pprd73k6bihvf5im86e6a1cjsa56994.apps.googleusercontent.com",
+    "googleSecret": "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"
+}

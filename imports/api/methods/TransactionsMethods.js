@@ -1,13 +1,20 @@
 import { Meteor } from "meteor/meteor";
+import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import SimpleSchema from "simpl-schema";
 import {
   TransactionsCollection,
-  ADD_TYPE,
   TRANSFER_TYPE,
-} from "../collections/TransactionsCollection";
+  ADD_TYPE,
+} from '../collections/TransactionsCollection';
+import { WalletRoles } from '../../../infra/WalletRoles';
 
 Meteor.methods({
   'transactions.insert'(args) {
+    const { userId } = this;
+    if (!userId) {
+      throw new Meteor.Error('Access denied');
+    }
     const schema = new SimpleSchema({
       isTransferring: {
         type: Boolean,
@@ -15,7 +22,7 @@ Meteor.methods({
       sourceWalletId: {
         type: String,
       },
-      destinationWalletId: {
+      destinationContactId: {
         type: String,
         optional: !args.isTransferring,
       },
@@ -26,19 +33,28 @@ Meteor.methods({
     });
     const cleanArgs = schema.clean(args);
     schema.validate(cleanArgs);
-
-    const {
-      isTransferring,
-      sourceWalletId,
-      destinationWalletId,
-      amount,
-    } = args;
+    const { isTransferring, sourceWalletId, destinationContactId, amount } =
+      args;
     return TransactionsCollection.insert({
       type: isTransferring ? TRANSFER_TYPE : ADD_TYPE,
       sourceWalletId,
-      destinationWalletId: isTransferring ? destinationWalletId : null,
+      destinationContactId: isTransferring ? destinationContactId : null,
       amount,
-      createdAt: new Date()
+      createdAt: new Date(),
+      userId,
     });
+  },
+  'transactions.remove'(transactionId) {
+    const { userId } = this;
+    if (!userId) {
+      throw new Meteor.Error('Access denied');
+    }
+    check(transactionId, String);
+
+    if (!Roles.userIsInRole(userId, WalletRoles.ADMIN)) {
+      throw new Error('Permission denied');
+    }
+
+    return TransactionsCollection.remove(transactionId);
   },
 });

@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+
 export const WalletsCollection = new Mongo.Collection('wallets');
 
 const walletsSchema = new SimpleSchema({
@@ -16,7 +17,9 @@ const walletsSchema = new SimpleSchema({
   createdAt: {
     type: Date,
   },
+  userId: {
+    type: String,
+  },
 });
-
 
 WalletsCollection.attachSchema(walletsSchema);

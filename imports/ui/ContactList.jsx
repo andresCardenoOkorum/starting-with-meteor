@@ -4,7 +4,7 @@ import {useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { Loading } from "./components/Loading";
 
 export const ContactList = () => {
-  const isLoading = useSubscribe('contacts');
+  const isLoading = useSubscribe('myContacts');
   const contacts = useFind(() =>
     ContactsCollection.find(
       { archived: {$ne: true} },
@@ -15,6 +15,7 @@ export const ContactList = () => {
   const removeContact = (event, _id) => {
     event.preventDefault();
     Meteor.call('contacts.archive', { contactId: _id });
+    console.log(_id);
   }
 
   const ContactItem = memo(({ contact }) => {
